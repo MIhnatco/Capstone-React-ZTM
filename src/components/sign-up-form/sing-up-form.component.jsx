@@ -1,5 +1,8 @@
 import { useState } from "react";
-import "./sing-up-form.styles.scss";
+
+//styled-components
+import { SignUpContainer, SignUpTitle } from "./sing-up-form.styles.jsx";
+
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
@@ -7,9 +10,6 @@ import {
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
-
-
-
 
 const defaultFormFields = {
   displayName: "",
@@ -21,8 +21,6 @@ const defaultFormFields = {
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
-
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -42,8 +40,6 @@ const SignUpForm = () => {
         password
       );
 
-
-
       await createUserDocumentFromAuth(user, { displayName });
 
       resetFormFields();
@@ -62,8 +58,8 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="sign-up-container">
-      <h2>Sign up with your email and password</h2>
+    <SignUpContainer>
+      <SignUpTitle>Sign up with your email and password</SignUpTitle>
       <span>Sign up with your email and password</span>
 
       <form onSubmit={handleSubmit}>
@@ -105,7 +101,7 @@ const SignUpForm = () => {
 
         <Button type="submit">Sign Up</Button>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 
