@@ -1,9 +1,14 @@
-import { Fragment, useContext } from "react";
+import { Fragment } from "react";
 import { Outlet } from "react-router-dom";
 
-import { UserContext } from "../../contexts/user.context";
+import { selectIsCartOpen } from "../../store/cart/cart.selector.js";
+
 import { signOutUser } from "../../utils/firebase/firebase.utils";
-import { CartContext } from "../../contexts/cart.context";
+
+// Use the useSelector hook to get the current state from the Redux store
+import { useSelector } from "react-redux";
+
+import { selectCurrentUser } from "../../store/user/user.selector.js";
 
 import { ReactComponent as CrwnLogo } from "../../assets/crown.svg";
 
@@ -18,8 +23,8 @@ import {
 } from "./navigation.styles.jsx";
 
 const Navigation = () => {
-  const { currentUser } = useContext(UserContext);
-  const { isCartOpen } = useContext(CartContext);
+  const currentUser = useSelector(selectCurrentUser);
+  const isCartOpen = useSelector(selectIsCartOpen);
 
   return (
     <Fragment>
