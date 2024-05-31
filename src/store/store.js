@@ -2,16 +2,18 @@ import { compose, createStore, applyMiddleware } from "redux";
 
 //redux persist
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage"; //default sto localStorage for web
+import storage from "redux-persist/lib/storage"; //default to localStorage for web
 
 //root reducer
 import { rootReducer } from "./root-reducer";
+
+import { thunk } from "redux-thunk";
 
 //configuration object
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["user"],
+  whitelist: ["cart"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -31,7 +33,7 @@ const loggerMiddleware = (store) => (next) => (action) => {
 };
 
 // Set up middleware
-const middleWares = [loggerMiddleware];
+const middleWares = [loggerMiddleware, thunk];
 
 // Use compose to apply multiple enhancers
 const composedEnhancers = compose(applyMiddleware(...middleWares));
