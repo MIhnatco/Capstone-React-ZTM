@@ -7,7 +7,10 @@ import storage from "redux-persist/lib/storage"; //default to localStorage for w
 //root reducer
 import { rootReducer } from "./root-reducer";
 
-import { thunk } from "redux-thunk";
+//import { thunk } from "redux-thunk";
+
+import createSagaMiddleware from "redux-saga";
+import { rootSaga } from "./root-saga";
 
 //configuration object
 const persistConfig = {
@@ -15,6 +18,8 @@ const persistConfig = {
   storage,
   whitelist: ["cart"],
 };
+
+const sagaMiddleware = createSagaMiddleware();
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -33,7 +38,7 @@ const loggerMiddleware = (store) => (next) => (action) => {
 };
 
 // Set up middleware
-const middleWares = [loggerMiddleware, thunk];
+const middleWares = [loggerMiddleware, sagaMiddleware];
 
 // Use compose to apply multiple enhancers
 const composedEnhancers = compose(applyMiddleware(...middleWares));
@@ -44,5 +49,7 @@ export const store = createStore(
   undefined,
   composedEnhancers
 );
+
+sagaMiddleware.run(rootSaga);
 
 export const persistor = persistStore(store);
